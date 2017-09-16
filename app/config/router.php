@@ -37,7 +37,7 @@ $router->addGet(
 
 /**
  * シングルページ
- * http://localhost/items/{id}
+ * http://localhost/items/{id:[0-9]+}
  * GETでアクセス（）
  * ItemsControllerのsingleメソッドが実行
  */
@@ -48,7 +48,7 @@ $router->addGet(
 
 /**
  * 更新
- * http://localhost/items/{id}
+ * http://localhost/items/{id:[0-9]+}
  * PUTでアクセス
  * ItemsControllerのupdateメソッドが実行
  */
@@ -59,7 +59,7 @@ $router->addPut(
 
 /**
  * 削除
- * http://localhost/items/{id}
+ * http://localhost/items/{id:[0-9]+}
  * DELETEでアクセス
  * ItemsControllerのdestroyメソッドが実行
  */
