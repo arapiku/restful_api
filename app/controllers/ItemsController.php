@@ -28,9 +28,27 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function searchAction($title)
     {
-        $item = Items::find("title = '$title'");
+        $phql = "SELECT * FROM Items WHERE title LIKE :title:";
+        $items = $this->modelsManager->executeQuery(
+            $phql,
+            [
+                'title' => '%' . $title . '%'                
+            ]
+        );
         
-        echo json_encode($item);
+        $data = [];
+        
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'title' => $item->title,
+                'description' => $item->description,
+                'price' => $item->price,
+                'image' => $item->image,
+            ];
+        }
+        
+        echo json_encode($data);
     }
     
     public function singleAction($id)
