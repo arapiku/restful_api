@@ -25,9 +25,11 @@ class ItemsController extends \Phalcon\Mvc\Controller
         echo json_encode($data);
     }
     
-    public function searchAction()
+    public function searchAction($title)
     {
+        $item = Items::find("title = '$title'");
         
+        echo json_encode($item);
     }
     
     public function singleAction()
