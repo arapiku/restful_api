@@ -8,9 +8,9 @@ class ItemsController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        
-        $items = Items::find();
-        
+        $query = $this->modelsManager->createQuery("SELECT * FROM Items");
+        $items = $query->execute();
+
         $data = [];
         
         foreach ($items as $item) {
