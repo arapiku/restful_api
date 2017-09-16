@@ -48,23 +48,23 @@ $router->addGet(
 
 /**
  * 更新
- * http://localhost/items/update
+ * http://localhost/items/{id}
  * PUTでアクセス
  * ItemsControllerのupdateメソッドが実行
  */
 $router->addPut(
-    '/items/update',
+    '/items/{id:[0-9]+}',
     'Items::update'
 );
 
 /**
  * 削除
- * http://localhost/items/delete
+ * http://localhost/items/{id}
  * DELETEでアクセス
  * ItemsControllerのdestroyメソッドが実行
  */
 $router->addDelete(
-    '/items/delete',
+    '/items/{id:[0-9]+}',
     'Items::destroy'
 );
 

@@ -52,10 +52,38 @@ class ItemsController extends \Phalcon\Mvc\Controller
     }
     
     public function singleAction($id)
-    {            
-        $item = Items::find("id = $id");        
+    {               
+        $phql = "SELECT * FROM Items WHERE id = :id:";
+        $items = $this->modelsManager->executeQuery(
+            $phql,
+            [
+                'id' => $id
+            ]
+        )->getFirst();
         
-        echo json_encode($item);
+        // レスポンスを作成
+        $response = new Response();
+        
+        if ($items === false) {
+            // ステータスコードを変える
+            $response->setStatusCode(404, 'NOT-FOUND');
+            
+            $response->setJsonContent(
+                [
+                    'status' => 'NOT-FOUND'
+                ]
+            );
+        } else {
+            $response->setJsonContent(
+                [
+                    'status' => 'FOUND',
+                    'data' => $items
+                ]
+            );
+        }
+        
+        
+        return $response;
     }
     
     public function newAction()
