@@ -22,58 +22,50 @@ $router->addGet(
 $router->addPost(
     '/items/',
     'Items::new'
-    );
-
-/**
- * 検索画面
- * http://localhost/items/search/
- * GETでアクセス
- * ItemsControllerのsearchメソッドが実行
- */
-$router->addGet(
-    '/items/search',
-    'Items::search'
-    );
+);
 
 /**
  * 検索結果
- * http://localhost/items/search/{name}
+ * http://localhost/items/search/{title}
  * GETでアクセス（）
- * ItemsControllerのsearchResultメソッドが実行
+ * ItemsControllerのsearchメソッドが実行
  */
 $router->addGet(
-    '/items/search/{name}',
-    'Items::searchResult'
+    '/items/search/{title}',
+    'Items::search'
+);
+
+/**
+ * シングルページ
+ * http://localhost/items/{id}
+ * GETでアクセス（）
+ * ItemsControllerのsingleメソッドが実行
+ */
+$router->addGet(
+    '/items/{id:[0-9]+}',
+    'Items::single'
 );
 
 /**
  * 更新
- * http://localhost/items/{id:[0-9]+}/
+ * http://localhost/items/update
  * PUTでアクセス
  * ItemsControllerのupdateメソッドが実行
  */
-$router->add(
-    '/items/{id:[0-9]+}',
-    'Items::update',
-    )->via(
-        [
-            'PUT'
-        ]
+$router->addPut(
+    '/items/update',
+    'Items::update'
 );
 
 /**
  * 削除
- * http://localhost/items/{id:[0-9]+}
+ * http://localhost/items/delete
  * DELETEでアクセス
  * ItemsControllerのdestroyメソッドが実行
  */
-$router->add(
-    '/items/{id:[0-9]+}',
-    'Items::destroy',
-    )->via(
-        [
-            'DELETE'
-        ]
+$router->addDelete(
+    '/items/delete',
+    'Items::destroy'
 );
 
 $router->handle();
