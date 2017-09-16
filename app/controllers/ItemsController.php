@@ -32,9 +32,11 @@ class ItemsController extends \Phalcon\Mvc\Controller
         echo json_encode($item);
     }
     
-    public function singleAction()
+    public function singleAction($id)
     {            
+        $item = Items::find("id = $id");        
         
+        echo json_encode($item);
     }
     
     public function newAction()
