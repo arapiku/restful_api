@@ -197,7 +197,48 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function destroyAction($id)
     {
+        $phql = "DELETE FROM Items WHERE id = :id:";
         
+        $status = $this->modelsManager->executeQuery(
+            $phql,
+            [
+                'id' => $id,
+            ]
+        );
+        
+        // レスポンスを作成
+        $response = new Response();
+        
+        // もし削除が成功したら
+        if ($status->success() === true) {
+            // HTTPステータスコードを変える
+            $response->setStatusCode(204, 'No Content');
+            
+            $response->setJsonContent(
+                [
+                    'status' => 'OK'
+                ]
+            );
+        // 失敗したら
+        } else {
+            // HTTPステータスコードを変える
+            $response->setStatusCode(409, 'Conflict');
+            
+            $errors = [];
+            
+            foreach($status->getMessages() as $message) {
+                $errors[] = $message->getMessage();
+            }
+            
+            $response->setJsonContent(
+                [
+                    'status' => 'ERROR',
+                    'messages' => $errors,
+                ]
+            );
+        }
+        
+        return $response;
     }
 
 }
