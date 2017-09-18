@@ -36,11 +36,11 @@
   ```
   .
   ├── app/ .. コアコード
-  	   ├── config/ .. 設定ファイル
-  	   ├── controllers/ .. コントローラーファイル
-  	   ├── migrations/ .. マイグレーションファイル
-  	   ├── models/ .. モデルファイル
-  	   └── views/ .. ビューファイル
+  	 ├── config/ .. 設定ファイル
+  	 ├── controllers/ .. コントローラーファイル
+  	 ├── migrations/ .. マイグレーションファイル
+  	 ├── models/ .. モデルファイル
+  	 └── views/ .. ビューファイル
   └── public/ .. index.php
   
   ```
