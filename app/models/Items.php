@@ -1,5 +1,9 @@
 <?php
 
+use Phalcon\Mvc\Model;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\StringLength;
+
 class Items extends \Phalcon\Mvc\Model
 {
 
@@ -81,4 +85,34 @@ class Items extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function validation()
+    {
+        $validator = new Validation();
+        
+        // タイトル文字数
+        $validator->add(
+            'title',
+            new StringLength(
+                [
+                    'max' => '100',
+                    'messageMaximum' => 'Please enter title in 100 characters or less.',
+                ]
+            )
+        );
+        
+        // 説明文文字数
+        $validator->add(
+            'description',
+            new StringLength(
+                [
+                    'max' => '500',
+                    'messageMaximum' => 'Please enter description in 500 characters or less.',
+                ]
+            )
+        );
+        
+        return $this->validate($validator);
+       
+    }
+    
 }
