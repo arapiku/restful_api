@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
 
@@ -83,6 +84,17 @@ class Items extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+    
+    /**
+     * タイトル検索用メソッド
+     */
+    public static function findByTitle($parameters = null)
+    {
+        $criteria = Items::query();
+        $criteria->where('title LIKE :title:', ['title' => '%' . $parameters . '%']);
+        $items = $criteria->execute();
+        return $items;
     }
 
     public function validation()
