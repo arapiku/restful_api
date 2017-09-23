@@ -17,27 +17,8 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function searchAction($title)
     {
-        $phql = "SELECT * FROM Items WHERE title LIKE :title:";
-        $items = $this->modelsManager->executeQuery(
-            $phql,
-            [
-                'title' => '%' . $title . '%'                
-            ]
-        );
-        
-        $data = [];
-        
-        foreach ($items as $item) {
-            $data[] = [
-                'id' => $item->id,
-                'title' => $item->title,
-                'description' => $item->description,
-                'price' => $item->price,
-                'image' => $item->image,
-            ];
-        }
-        
-        echo json_encode($data);
+           $items = Items::findByTitle($title);
+           echo json_encode($items);
     }
     
     public function singleAction($id)
