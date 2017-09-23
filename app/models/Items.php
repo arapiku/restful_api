@@ -97,6 +97,14 @@ class Items extends \Phalcon\Mvc\Model
         return $items;
     }
 
+    /**
+     * id検索用メソッド
+     */
+    public static function findById($parameters = null)
+    {
+        return parent::findById($parameters);
+    }
+    
     public function validation()
     {
         $validator = new Validation();
