@@ -17,19 +17,13 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function searchAction($title)
     {
-           $items = Items::findByTitle($title);
-           echo json_encode($items);
+        $items = Items::findByTitle($title);
+        echo json_encode($items);
     }
     
     public function singleAction($id)
     {               
-        $phql = "SELECT * FROM Items WHERE id = :id:";
-        $items = $this->modelsManager->executeQuery(
-            $phql,
-            [
-                'id' => $id
-            ]
-        )->getFirst();
+        $items = Items::findById($id);
         
         // レスポンスを作成
         $response = new Response();
@@ -51,7 +45,6 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 ]
             );
         }
-        
         
         return $response;
     }
