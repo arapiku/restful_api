@@ -3,27 +3,16 @@
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Http\Response;
 
+// use App\Models\Items;
+
 class ItemsController extends \Phalcon\Mvc\Controller
 {
 
     public function indexAction()
     {
-        $query = $this->modelsManager->createQuery("SELECT * FROM Items");
-        $items = $query->execute();
-
-        $data = [];
+        $items = Items::find();
         
-        foreach ($items as $item) {
-            $data[] = [
-                'id' => $item->id,
-                'title' => $item->title,
-                'description' => $item->description,
-                'price' => $item->price,
-                'image' => $item->image,
-            ];
-        }
-        
-        echo json_encode($data);
+        echo json_encode($items);
     }
     
     public function searchAction($title)
