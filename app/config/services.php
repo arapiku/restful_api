@@ -114,13 +114,6 @@ $di->setShared('session', function () {
     return $session;
 });
 
-// $di->setShared('logger', function() {
-//     $config = $this->getConfig();
-//     $logger = new FileAdapter($config->application->applogPath, ['mode' => 'w']);
-//     return $logger;
-// });
-
-
 /**
  * 404ページと500ページのハンドリング
  */
@@ -157,3 +150,12 @@ $di->set('dispatcher', function() use ($di) {
    return $dispatcher;
     
 }, true);
+
+/**
+ * エラーログに関して（未解決）
+ */
+$di->set('logger', function () {
+    $config = $this->getConfig();
+    $logger = new FileAdapter($config->application->applogPath, ['mode' => 'w']);
+    return $logger;
+});
