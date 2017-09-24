@@ -7,6 +7,9 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
+use Phalcon\Logger as Logger;
+use Phalcon\Logger\Adapter\File as FileAdapter;
+use Phalcon\Mvc\Dispatcher;
 
 /**
  * Shared configuration service
@@ -77,7 +80,7 @@ $di->setShared('db', function () {
     }
 
     $connection = new $class($params);
-
+    
     return $connection;
 });
 
@@ -110,3 +113,47 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+// $di->setShared('logger', function() {
+//     $config = $this->getConfig();
+//     $logger = new FileAdapter($config->application->applogPath, ['mode' => 'w']);
+//     return $logger;
+// });
+
+
+/**
+ * 404ページと500ページのハンドリング
+ */
+$di->set('dispatcher', function() use ($di) {
+   $eventsManager = $di->getShared('eventsManager');
+   $eventsManager->attach(
+       'dispatch:beforeException',
+       function($event, $dispatcher, $exception) {
+           switch ($exception->getCode()) {
+               case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+               case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                   $dispatcher->forward(
+                       array(
+                       'controller' => 'error',
+                       'action' => 'notFound',
+                        )
+                    );
+                   return false;
+                   break;
+               default:
+                   $dispatcher->forward(
+                       array(
+                       'controller' => 'error',
+                       'action' => 'uncaughtException',
+                       )
+                   );
+                   return false;
+                   break;
+           }
+       }
+   );
+   $dispatcher = new Dispatcher();
+   $dispatcher->setEventsManager($eventsManager);
+   return $dispatcher;
+    
+}, true);
