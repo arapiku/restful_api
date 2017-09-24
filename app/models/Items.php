@@ -105,6 +105,21 @@ class Items extends \Phalcon\Mvc\Model
         return parent::findById($parameters);
     }
     
+    /**
+     * 新規登録用メソッド（未解決）
+     */
+    public function createItems()
+    {
+        $query = $this->modelsManager->createQuery('INSERT INTO Items (title, description, price, image)
+                 VALUES (:title:, :description:, :price:, :image:)');
+        $response = $query->execute();
+        
+        return $response;
+    }
+    
+    /**
+     * バリデーション
+     */
     public function validation()
     {
         $validator = new Validation();
