@@ -355,36 +355,36 @@ APIをcurlコマンドで叩く
 - 商品の一覧表示
 
   ```  
-  curl -i -X GET http://localhost/restful_api/items/
+  curl -i -X GET http://localhost/items/
 
   ```
 
 - 商品の新規登録
 
   ```
-  curl -i -X POST -d '{"title":"タイトル","description":"説明文","price":12345,"image":"@aaa.png"}' http://localhost/restful_api/items/
+  curl -i -X POST -d '{"title":"タイトル","description":"説明文","price":12345,"image":"@aaa.png"}' http://localhost/items/
   ```
 
 - タイトルで商品検索
 
   ```
-  curl -i -X GET http://localhost/restful_api/items/search/タイトル
+  curl -i -X GET http://localhost/items/search/タイトル
   ```
 
 - 商品のシングルページ
 
   ```
-  curl -i -X GET http://localhost/restful_api/items/1
+  curl -i -X GET http://localhost/items/1
   ```
 
 - 商品の更新
 
   ```
-  curl -i -X PUT -d '{"title":"タイトル更新","description":"説明文更新","price":54321,"image":"@new.png"}' http://localhost/restful_api/items/1
+  curl -i -X PUT -d '{"title":"タイトル更新","description":"説明文更新","price":54321,"image":"@new.png"}' http://localhost/items/1
   ```
 
 - 商品の削除
 
   ```
-  curl -i -X DELETE http://localhost/restful_api/items/search/1
+  curl -i -X DELETE http://localhost/items/search/1
   ```
