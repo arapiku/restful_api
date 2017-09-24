@@ -4,7 +4,7 @@ $router = $di->getRouter();
 
 /**
  * 商品情報取得
- * http://localhost/items/
+ * http://items/
  * GETでアクセス
  * ItemsControllerのindexメソッドが実行
  */
@@ -15,7 +15,7 @@ $router->addGet(
 
 /**
  * 登録
- * http://localhost/items/
+ * http://items/
  * POSTでアクセス
  * ItemsControllerのnewメソッドが実行
  */
@@ -26,7 +26,7 @@ $router->addPost(
 
 /**
  * 検索結果
- * http://localhost/items/search/{title}
+ * http://items/search/{title}
  * GETでアクセス（）
  * ItemsControllerのsearchメソッドが実行
  */
@@ -37,7 +37,7 @@ $router->addGet(
 
 /**
  * シングルページ
- * http://localhost/items/{id:[0-9]+}
+ * http://items/{id:[0-9]+}
  * GETでアクセス（）
  * ItemsControllerのsingleメソッドが実行
  */
@@ -48,7 +48,7 @@ $router->addGet(
 
 /**
  * 更新
- * http://localhost/items/{id:[0-9]+}
+ * http://items/{id:[0-9]+}
  * PUTでアクセス
  * ItemsControllerのupdateメソッドが実行
  */
@@ -59,7 +59,7 @@ $router->addPut(
 
 /**
  * 削除
- * http://localhost/items/{id:[0-9]+}
+ * http://items/{id:[0-9]+}
  * DELETEでアクセス
  * ItemsControllerのdestroyメソッドが実行
  */
