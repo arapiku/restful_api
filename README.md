@@ -42,7 +42,7 @@
 
 - 設定
 
-  お好みで編集
+  お好みでVagrantfileを編集
 
   ``` Vagrantfile
   # ホスト名
