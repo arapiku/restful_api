@@ -3,8 +3,6 @@
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Http\Response;
 
-// use App\Models\Items;
-
 class ItemsController extends \Phalcon\Mvc\Controller
 {
 
@@ -66,6 +64,9 @@ class ItemsController extends \Phalcon\Mvc\Controller
             ]
         );
         
+        // 未解決
+//         $status = Items::createItems();
+        
         // レスポンスを作成
         $response = new Response();
         
@@ -106,53 +107,72 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function updateAction($id)
     {
-        $items = $this->request->getJsonRawBody();
-        
-        $phql = "UPDATE Items SET title = :title:, 
-                description = :description:, price = :price:, 
-                image = :image: WHERE id = :id:";
-        
-        $status = $this->modelsManager->executeQuery(
-            $phql,
-            [
-                'id' => $id,
-                'title' => $items->title,
-                'description' => $items->description,
-                'price' => $items->price,
-                'image' => $items->image,
-            ]
-        );
+        $find_items = Items::findById($id);
         
         // レスポンスを作成
         $response = new Response();
         
-        // もしアップデートが成功したら
-        if ($status->success() === true) {
-            // HTTPステータスコードを変える
-            $response->setStatusCode(204, 'No Content');
+        // 対象データが存在しなかったら（未解決）
+        if ($find_items === false) {
+            // ステータスコードを変える
+            $response->setStatusCode(404, 'NOT-FOUND');
             
             $response->setJsonContent(
                 [
-                    'status' => 'OK'
+                    'status' => 'NOT-FOUND'
                 ]
             );
-        // 失敗したら
+            
+        // 対象データが存在したら
         } else {
-            // HTTPステータスコードを変える
-            $response->setStatusCode(409, 'Conflict');
             
-            $errors = [];
+            $items = $this->request->getJsonRawBody();
             
-            foreach($status->getMessages() as $message) {
-                $errors[] = $message->getMessage();
+            $phql = "UPDATE Items SET title = :title:,
+                description = :description:, price = :price:,
+                image = :image: WHERE id = :id:";
+            
+            $status = $this->modelsManager->executeQuery(
+                $phql,
+                [
+                    'id' => $id,
+                    'title' => $items->title,
+                    'description' => $items->description,
+                    'price' => $items->price,
+                    'image' => $items->image,
+                ]
+            );
+            
+            // もしアップデートが成功したら
+            if ($status->success() === true) {
+                // HTTPステータスコードを変える
+                $response->setStatusCode(204, 'No Content');
+                
+                $response->setJsonContent(
+                    [
+                        'status' => 'OK',
+                        'message' => $find_items
+                    ]
+                );
+            // 失敗したら
+            } else {
+                // HTTPステータスコードを変える
+                $response->setStatusCode(409, 'Conflict');
+                
+                $errors = [];
+                
+                foreach($status->getMessages() as $message) {
+                    $errors[] = $message->getMessage();
+                }
+                
+                $response->setJsonContent(
+                    [
+                        'status' => 'ERROR',
+                        'messages' => $errors,
+                    ]
+                );
             }
             
-            $response->setJsonContent(
-                [
-                    'status' => 'ERROR',
-                    'messages' => $errors,
-                ]
-            );
         }
         
         return $response;
