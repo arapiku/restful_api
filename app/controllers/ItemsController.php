@@ -51,6 +51,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
     {
         $items = $this->request->getJsonRawBody();
         
+        
         $phql = 'INSERT INTO Items (title, description, price, image) 
                  VALUES (:title:, :description:, :price:, :image:)';
         
@@ -112,8 +113,8 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // レスポンスを作成
         $response = new Response();
         
-        // 対象データが存在しなかったら（未解決）
-        if ($find_items === false) {
+        // 対象データが存在しなかったら
+        if (count($find_items) <= 0) {
             // ステータスコードを変える
             $response->setStatusCode(404, 'NOT-FOUND');
             
