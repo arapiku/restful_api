@@ -113,21 +113,8 @@ class ItemsController extends \Phalcon\Mvc\Controller
         } else {
             
             $items = $this->request->getJsonRawBody();
-            
-            $phql = "UPDATE Items SET title = :title:,
-                description = :description:, price = :price:,
-                image = :image: WHERE id = :id:";
-            
-            $status = $this->modelsManager->executeQuery(
-                $phql,
-                [
-                    'id' => $id,
-                    'title' => $items->title,
-                    'description' => $items->description,
-                    'price' => $items->price,
-                    'image' => $items->image,
-                ]
-            );
+
+            $status = Items::updateItems($items, $id);
             
             // もしアップデートが成功したら
             if ($status->success() === true) {
