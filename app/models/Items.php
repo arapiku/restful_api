@@ -106,16 +106,22 @@ class Items extends \Phalcon\Mvc\Model
     }
     
     /**
-     * 新規登録用メソッド（未解決）
+     * 新規登録用メソッド
      */
-    public function createItems()
+    public function createItems($array)
     {
-        $query = $this->modelsManager->createQuery('INSERT INTO Items (title, description, price, image)
-                 VALUES (:title:, :description:, :price:, :image:)');
-        $response = $query->execute();
+        $phql = 'INSERT INTO Items (title, description, price, image)
+                 VALUES (:title:, :description:, :price:, :image:)';
+        $items = new Items();
+        $array = [
+            'title' => $array->title,
+            'description' => $array->description,
+            'price' => $array->price,
+            'image' => $array->image,
+        ];
         
-        return $response;
-    }
+        return $items->modelsManager->executeQuery($phql, $array);
+    } 
     
     /**
      * バリデーション
