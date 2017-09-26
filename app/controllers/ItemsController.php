@@ -8,7 +8,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $items = Items::createItems();
+        $items = Items::find();
         
         echo json_encode($items);
     }
