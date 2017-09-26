@@ -166,14 +166,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function destroyAction($id)
     {
-        $phql = "DELETE FROM Items WHERE id = :id:";
-        
-        $status = $this->modelsManager->executeQuery(
-            $phql,
-            [
-                'id' => $id,
-            ]
-        );
+        $status = Items::deleteItems($id);
         
         // レスポンスを作成
         $response = new Response();
