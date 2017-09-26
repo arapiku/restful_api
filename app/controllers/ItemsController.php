@@ -8,7 +8,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        $items = Items::find();
+        $items = Items::createItems();
         
         echo json_encode($items);
     }
@@ -50,23 +50,8 @@ class ItemsController extends \Phalcon\Mvc\Controller
     public function newAction()
     {
         $items = $this->request->getJsonRawBody();
-        
-        
-        $phql = 'INSERT INTO Items (title, description, price, image) 
-                 VALUES (:title:, :description:, :price:, :image:)';
-        
-        $status = $this->modelsManager->executeQuery(
-            $phql,
-            [
-                'title' => $items->title,
-                'description' => $items->description,
-                'price' => $items->price,
-                'image' => $items->image,
-            ]
-        );
-        
-        // 未解決
-//         $status = Items::createItems();
+
+        $status = Items::createItems($items);
         
         // レスポンスを作成
         $response = new Response();
@@ -84,7 +69,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                     'data' => $items,
                 ]
             );
-        // 失敗したら
+            // 失敗したら
         } else {
             // HTTPステータスコードを変える
             $response->setStatusCode(409, 'Conflict');
