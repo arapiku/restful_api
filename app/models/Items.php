@@ -124,14 +124,37 @@ class Items extends \Phalcon\Mvc\Model
     } 
     
     /**
+     * 更新用メソッド
+     */
+    public function updateItems($array, $id)
+    {
+        $phql = "UPDATE Items SET title = :title:,
+                description = :description:, price = :price:,
+                image = :image: WHERE id = :id:";
+        $items = new Items();
+        $array = [
+            'id' => $id,
+            'title' => $array->title,
+            'description' => $array->description,
+            'price' => $array->price,
+            'image' => $array->image,
+        ];
+        
+        return $items->modelsManager->executeQuery($phql, $array);
+    }
+    
+    /**
      * 削除用メソッド
      */
     public function deleteItems($id)
     {
         $phql = "DELETE FROM Items WHERE id = :id:";
         $items = new Items();
-        $status = $items->modelsManager->executeQuery($phql, array('id' => $id));
-        return $status;
+        $array = [
+          'id' => $id  
+        ];
+        
+        return $items->modelsManager->executeQuery($phql, $array);
     }
     
     /**
