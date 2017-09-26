@@ -124,6 +124,17 @@ class Items extends \Phalcon\Mvc\Model
     } 
     
     /**
+     * 削除用メソッド
+     */
+    public function deleteItems($id)
+    {
+        $phql = "DELETE FROM Items WHERE id = :id:";
+        $items = new Items();
+        $status = $items->modelsManager->executeQuery($phql, array('id' => $id));
+        return $status;
+    }
+    
+    /**
      * バリデーション
      */
     public function validation()
