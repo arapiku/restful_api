@@ -50,6 +50,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
     public function newAction()
     {
         $items = $this->request->getJsonRawBody();
+        $items = $this->request->getPost();
 
         $status = Items::createItems($items);
         
@@ -84,6 +85,8 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 [
                     'status' => 'ERROR',
                     'messages' => $errors,
+                    'data1' => $items,
+                    'data2' => $status,
                 ]
             );
         }
@@ -153,38 +156,52 @@ class ItemsController extends \Phalcon\Mvc\Controller
     
     public function destroyAction($id)
     {
-        $status = Items::deleteItems($id);
+        $find_items = Items::findById($id);
         
         // レスポンスを作成
         $response = new Response();
         
-        // もし削除が成功したら
-        if ($status->success() === true) {
-            // HTTPステータスコードを変える
-            $response->setStatusCode(204, 'No Content');
+        // 対象データが存在しなかったら
+        if (count($find_items) <= 0) {
+            $response->setStatusCode(404, 'Not Found');
             
             $response->setJsonContent(
                 [
-                    'status' => 'OK'
+                    'status' => 'NOT-FOUND'
                 ]
             );
-        // 失敗したら
+        // 対象データが存在したら
         } else {
-            // HTTPステータスコードを変える
-            $response->setStatusCode(409, 'Conflict');
+            $status = Items::deleteItems($id);
             
-            $errors = [];
-            
-            foreach($status->getMessages() as $message) {
-                $errors[] = $message->getMessage();
+            // もし削除が成功したら
+            if ($status->success() === true) {
+                // HTTPステータスコードを変える
+                $response->setStatusCode(204, 'No Content');
+                
+                $response->setJsonContent(
+                    [
+                        'status' => 'OK'
+                    ]
+                );
+            // 失敗したら
+            } else {
+                // HTTPステータスコードを変える
+                $response->setStatusCode(409, 'Conflict');
+                
+                $errors = [];
+                
+                foreach($status->getMessages() as $message) {
+                    $errors[] = $message->getMessage();
+                }
+                
+                $response->setJsonContent(
+                    [
+                        'status' => 'ERROR',
+                        'messages' => $errors,
+                    ]
+                );
             }
-            
-            $response->setJsonContent(
-                [
-                    'status' => 'ERROR',
-                    'messages' => $errors,
-                ]
-            );
         }
         
         return $response;
