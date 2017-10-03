@@ -5,6 +5,11 @@ use Phalcon\Mvc\Model\Query;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
 
+use Phalcon\Logger;
+use Phalcon\Logger\Multiple as MultipleStream;
+use Phalcon\Logger\Adapter\File as FileAdapter;
+use Phalcon\Logger\Adapter\Stream as StreamAdapter;
+
 class Items extends \Phalcon\Mvc\Model
 {
 
@@ -108,7 +113,7 @@ class Items extends \Phalcon\Mvc\Model
     /**
      * 新規登録用メソッド
      */
-    public function createItems($array)
+    public static function createItems($array)
     {
         $phql = 'INSERT INTO Items (title, description, price, image)
                  VALUES (:title:, :description:, :price:, :image:)';
@@ -126,7 +131,7 @@ class Items extends \Phalcon\Mvc\Model
     /**
      * 更新用メソッド
      */
-    public function updateItems($array, $id)
+    public static function updateItems($array, $id)
     {
         $phql = "UPDATE Items SET title = :title:,
                 description = :description:, price = :price:,
@@ -146,7 +151,7 @@ class Items extends \Phalcon\Mvc\Model
     /**
      * 削除用メソッド
      */
-    public function deleteItems($id)
+    public static function deleteItems($id)
     {
         $phql = "DELETE FROM Items WHERE id = :id:";
         $items = new Items();
