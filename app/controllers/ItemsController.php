@@ -9,8 +9,12 @@ class ItemsController extends \Phalcon\Mvc\Controller
     public function indexAction()
     {
         $items = Items::find();
-        
-        echo json_encode($items);
+        $json = json_encode($items);
+        Logger::info("Result: " . $json);
+        $this->response->setContent($json);
+        $this->response->send();
+        $this->view->disable();
+        return;
     }
     
     public function searchAction($title)
@@ -26,7 +30,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // レスポンスを作成
         $response = new Response();
         
-        if ($items === false) {
+        if (count($items) <= 0) {
             // ステータスコードを変える
             $response->setStatusCode(404, 'NOT-FOUND');
             
@@ -35,6 +39,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                     'status' => 'NOT-FOUND'
                 ]
             );
+            
         } else {
             $response->setJsonContent(
                 [
@@ -50,7 +55,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
     public function newAction()
     {
         $items = $this->request->getJsonRawBody();
-        $items = $this->request->getPost();
+        
 
         $status = Items::createItems($items);
         
@@ -89,6 +94,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                     'data2' => $status,
                 ]
             );
+            
         }
         
         return $response;
