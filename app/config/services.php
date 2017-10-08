@@ -7,9 +7,12 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
-use Phalcon\Logger as Logger;
+use Phalcon\Logger;
+use Phalcon\Logger\Multiple as MultipleStream;
 use Phalcon\Logger\Adapter\File as FileAdapter;
+use Phalcon\Logger\Adapter\Stream as StreamAdapter;
 use Phalcon\Mvc\Dispatcher;
+use Phalcon\Security;
 
 /**
  * Shared configuration service
@@ -145,17 +148,32 @@ $di->set('dispatcher', function() use ($di) {
            }
        }
    );
+   
+//    $eventsManager->attach(
+//        'dispatch:beforeExecuteRoute',
+//        new SecurityPlugin()
+//    );
+   
    $dispatcher = new Dispatcher();
    $dispatcher->setEventsManager($eventsManager);
    return $dispatcher;
     
 }, true);
 
+$di->set('security', function () {
+   $security = new Security();
+   
+   $security->setWorkFactor(12);
+   
+   return $security;
+}, true);
+
+
 /**
  * エラーログに関して（未解決）
  */
-$di->set('logger', function () {
-    $config = $this->getConfig();
-    $logger = new FileAdapter($config->application->applogPath, ['mode' => 'w']);
-    return $logger;
-});
+// $di->set('logger', function () use ($config) {
+//     $logger =  new \Phalcon\Logger\Adapter\File($config->application->logsDir . "error.log");
+//     $logger->setLogLevel(\Phalcon\Logger::INFO);
+//     return $logger;
+// });

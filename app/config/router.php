@@ -68,4 +68,14 @@ $router->addDelete(
     'Items::destroy'
 );
 
+$router->addGet(
+    '/tests/',
+    'Tests::index'
+    );
+
+$router->addPost(
+    '/tests/',
+    'Tests::new'
+);
+
 $router->handle();

@@ -107,6 +107,7 @@ class Items extends \Phalcon\Mvc\Model
      */
     public static function findById($parameters = null)
     {
+        
         return parent::findById($parameters);
     }
     
@@ -114,7 +115,7 @@ class Items extends \Phalcon\Mvc\Model
      * 新規登録用メソッド
      */
     public static function createItems($array)
-    {
+    {   
         $phql = 'INSERT INTO Items (title, description, price, image)
                  VALUES (:title:, :description:, :price:, :image:)';
         $items = new Items();
