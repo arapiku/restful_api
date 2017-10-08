@@ -1,19 +1,35 @@
 <?php
 
+require_once $config->application->libraryDir.'plogger.php';
+
+use App\Library\Log\Plogger;
+
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Http\Response;
+
+use Phalcon\Logger;
+// use Phalcon\Logger\Adapter\Stream as StreamAdapter;
+// use Phalcon\Logger\Adapter\File as FileAdapter;
 
 class ItemsController extends \Phalcon\Mvc\Controller
 {
 
     public function indexAction()
     {
+        // 全件検索、json化
         $items = Items::find();
         $json = json_encode($items);
-        Logger::info("Result: " . $json);
+        
+        // ログ出力
+        $plogger = new Plogger("データ取得ok");
+        $plogger->debug();
+        var_dump($plogger);
+        
+        // レスポンス
         $this->response->setContent($json);
         $this->response->send();
         $this->view->disable();
+        
         return;
     }
     
