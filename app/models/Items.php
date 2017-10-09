@@ -1,14 +1,13 @@
 <?php
 
+include_once $config->application->libraryDir.'plogger.php';
+
+use App\Library\Log\Plogger;
+
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\StringLength;
-
-use Phalcon\Logger;
-use Phalcon\Logger\Multiple as MultipleStream;
-use Phalcon\Logger\Adapter\File as FileAdapter;
-use Phalcon\Logger\Adapter\Stream as StreamAdapter;
 
 class Items extends \Phalcon\Mvc\Model
 {
@@ -77,7 +76,29 @@ class Items extends \Phalcon\Mvc\Model
      */
     public static function find($parameters = null)
     {
-        return parent::find($parameters);
+        $items = parent::find($parameters);
+        
+        if(count($items) != 0) {
+            // ログ出力
+            $plogger = new Plogger("Itemsのfindメソッドが実行されました");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return $items;
+            
+        } else {
+            // ログ出力
+            $plogger = new Plogger("Itemsのfindメソッドが実行されませんでした");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return;
+            
+        }
     }
 
     /**
@@ -99,7 +120,29 @@ class Items extends \Phalcon\Mvc\Model
         $criteria = Items::query();
         $criteria->where('title LIKE :title:', ['title' => '%' . $parameters . '%']);
         $items = $criteria->execute();
-        return $items;
+        // executeされたら
+        if($items) {
+            // ログ出力
+            $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されました");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return $items;
+        
+        // executeされなかったら
+        } else {
+            // ログ出力
+            $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されませんでした");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return;
+            
+        }
     }
 
     /**
@@ -107,15 +150,35 @@ class Items extends \Phalcon\Mvc\Model
      */
     public static function findById($parameters = null)
     {
-        
-        return parent::findById($parameters);
+        $items = parent::findById($parameters);
+        if(count($items) != 0) {
+            // ログ出力
+            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return $items;
+            
+        } else {
+            // ログ出力
+            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されませんでした");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return;
+            
+        }
     }
     
     /**
      * 新規登録用メソッド
      */
     public static function createItems($array)
-    {   
+    {
         $phql = 'INSERT INTO Items (title, description, price, image)
                  VALUES (:title:, :description:, :price:, :image:)';
         $items = new Items();
@@ -125,8 +188,30 @@ class Items extends \Phalcon\Mvc\Model
             'price' => $array->price,
             'image' => $array->image,
         ];
+        $execute = $items->modelsManager->executeQuery($phql, $array);
         
-        return $items->modelsManager->executeQuery($phql, $array);
+        if($execute) {
+            // ログ出力
+            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return $execute;
+            
+        } else {
+            // ログ出力
+            $plogger = new Plogger("ItemsのcreateItemsメソッドが実行されませんでした");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return;
+            
+        }
+        
     } 
     
     /**
@@ -146,7 +231,28 @@ class Items extends \Phalcon\Mvc\Model
             'image' => $array->image,
         ];
         
-        return $items->modelsManager->executeQuery($phql, $array);
+        $execute = $items->modelsManager->executeQuery($phql, $array);
+        
+        if($execute) {
+            // ログ出力
+            $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されました");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return $execute;
+        } else {
+            // ログ出力
+            $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されませんでした");
+            $plogger->debug();
+            echo "<pre>";
+            var_dump($plogger);
+            echo "</pre>";
+            
+            return;
+        }
+
     }
     
     /**
