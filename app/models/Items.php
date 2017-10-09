@@ -78,27 +78,7 @@ class Items extends \Phalcon\Mvc\Model
     {
         $items = parent::find($parameters);
         
-        if(count($items) != 0) {
-            // ログ出力
-            $plogger = new Plogger("Itemsのfindメソッドが実行されました");
-            $plogger->debug();
-            echo "<pre>";
-            var_dump($plogger);
-            echo "</pre>";
-            
-            return $items;
-            
-        } else {
-            // ログ出力
-            $plogger = new Plogger("Itemsのfindメソッドが実行されませんでした");
-            $plogger->debug();
-            echo "<pre>";
-            var_dump($plogger);
-            echo "</pre>";
-            
-            return;
-            
-        }
+        return $items;
     }
 
     /**
