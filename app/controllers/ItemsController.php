@@ -24,11 +24,10 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ログ出力
             $plogger = new Plogger("データ取得成功");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
             $this->response->setContent($json);
+            $this->response->setContentType("application/json", "utf-8");
             $this->response->send();
             $this->view->disable();
             
@@ -37,11 +36,10 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ログ出力
             $plogger = new Plogger("データ取得失敗");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
+            $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
         }
         
@@ -54,17 +52,16 @@ class ItemsController extends \Phalcon\Mvc\Controller
         $items = Items::findByTitle($title);
         
         // 検索結果が1件以上であれば
-        if(count($items) != 0) {
+        if (count($items) != 0) {
             // json化
             $json = json_encode($items);
             // ログ出力
             $plogger = new Plogger("検索結果が".count($items)."件見つかりました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
             $this->response->setContent($json);
+            $this->response->setContentType("application/json", "utf-8");
             $this->response->send();
             $this->view->disable();
         // 検索結果が0件であれば
@@ -74,10 +71,9 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ログ出力
             $plogger = new Plogger("検索結果が見つかりませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
+            $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
         }
             
@@ -96,11 +92,10 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ログ出力
             $plogger = new Plogger("検索結果が見つかりました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
             $this->response->setContent($json);
+            $this->response->setContentType("application/json", "utf-8");
             $this->response->send();
             $this->view->disable();
         
@@ -111,10 +106,9 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ログ出力
             $plogger = new Plogger("検索結果が見つかりませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             // レスポンス
+            $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
         }
         
@@ -124,7 +118,6 @@ class ItemsController extends \Phalcon\Mvc\Controller
     public function newAction()
     {
         $items = $this->request->getJsonRawBody();
-        echo "作成データ：";
         var_dump($items);
         $status = Items::createItems($items);
         
@@ -138,6 +131,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             var_dump($plogger);
             // レスポンス
             $this->response->setStatusCode(201, 'Created');
+            $this->response->setContentType("application/json", "utf-8");
             $items->id = $status->getModel()->id;
             $this->response->setContent($json);
             $this->response->send();
@@ -157,6 +151,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // レスポンス
             $this->response->setStatusCode(409, 'Conflict');
             $this->response->setContent(var_dump($errors));
+            $this->response->setContentType("application/json", "utf-8");
             $this->response->send();
             $this->view->disable();
         }
@@ -173,7 +168,6 @@ class ItemsController extends \Phalcon\Mvc\Controller
         if (count($find_items) != 0) {
             
             $items = $this->request->getJsonRawBody();
-            echo "更新データ：";
             var_dump($items);
             $status = Items::updateItems($items, $id);
             
@@ -189,6 +183,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 $this->response->setStatusCode(201, 'Updated');
                 $items->id = $status->getModel()->id;
                 $this->response->setContent($json);
+                $this->response->setContentType("application/json", "utf-8");
                 $this->response->send();
                 $this->view->disable();
                 
@@ -206,6 +201,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 // レスポンス
                 $this->response->setStatusCode(409, 'Conflict');
                 $this->response->setContent(var_dump($errors));
+                $this->response->setContentType("application/json", "utf-8");
                 $this->response->send();
                 $this->view->disable();
             }
@@ -218,6 +214,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             var_dump($plogger);
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
+            $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
         }
         
@@ -251,7 +248,9 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 }
                 // レスポンス
                 $this->response->setStatusCode(409, 'Conflict');
+//                 echo"エラーメッセージ：";
                 $this->response->setContent(var_dump($errors));
+                $this->response->setContentType("application/json", "utf-8");
                 $this->response->send();
                 $this->view->disable();
             }
@@ -264,6 +263,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             var_dump($plogger);
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
+            $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
         }
         

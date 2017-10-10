@@ -105,9 +105,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return $items;
         
@@ -116,9 +114,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return;
             
@@ -135,9 +131,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return $items;
             
@@ -145,9 +139,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのfindByIdメソッドが実行されませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return;
             
@@ -174,9 +166,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return $execute;
             
@@ -184,9 +174,7 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのcreateItemsメソッドが実行されませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return;
             
@@ -217,18 +205,14 @@ class Items extends \Phalcon\Mvc\Model
             // ログ出力
             $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されました");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return $execute;
         } else {
             // ログ出力
             $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されませんでした");
             $plogger->debug();
-            echo "<pre>";
             var_dump($plogger);
-            echo "</pre>";
             
             return;
         }
