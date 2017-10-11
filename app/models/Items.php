@@ -1,9 +1,5 @@
 <?php
 
-include_once $config->application->libraryDir.'plogger.php';
-
-use App\Library\Log\Plogger;
-
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Validation;
@@ -103,18 +99,14 @@ class Items extends \Phalcon\Mvc\Model
         // executeされたら
         if($items) {
             // ログ出力
-            $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("ItemsのfindByTitleメソッドが実行されました");
             
             return $items;
         
         // executeされなかったら
         } else {
             // ログ出力
-            $plogger = new Plogger("ItemsのfindByTitleメソッドが実行されませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("ItemsのfindByTitleメソッドが実行されませんでした");
             
             return;
             
@@ -129,17 +121,13 @@ class Items extends \Phalcon\Mvc\Model
         $items = parent::findById($parameters);
         if(count($items) != 0) {
             // ログ出力
-            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("ItemsのfindByIdメソッドが実行されました");
             
             return $items;
             
         } else {
             // ログ出力
-            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("ItemsのfindByIdメソッドが実行されませんでした");
             
             return;
             
@@ -164,17 +152,13 @@ class Items extends \Phalcon\Mvc\Model
         
         if($execute) {
             // ログ出力
-            $plogger = new Plogger("ItemsのfindByIdメソッドが実行されました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("ItemsのfindByIdメソッドが実行されました");
             
             return $execute;
             
         } else {
             // ログ出力
-            $plogger = new Plogger("ItemsのcreateItemsメソッドが実行されませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("ItemsのcreateItemsメソッドが実行されませんでした");
             
             return;
             
@@ -203,18 +187,16 @@ class Items extends \Phalcon\Mvc\Model
         
         if($execute) {
             // ログ出力
-            $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("ItemsのupdateItemsメソッドが実行されました");
             
             return $execute;
+            
         } else {
             // ログ出力
-            $plogger = new Plogger("ItemsのupdateItemsメソッドが実行されませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("ItemsのupdateItemsメソッドが実行されませんでした");
             
             return;
+            
         }
 
     }

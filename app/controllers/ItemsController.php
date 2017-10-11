@@ -2,7 +2,7 @@
 
 require_once $config->application->libraryDir.'plogger.php';
 
-use App\Library\Log\Plogger;
+// use App\Library\Log\Plogger;
 
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Http\Response;
@@ -22,9 +22,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             //json化
             $json = json_encode($items);
             // ログ出力
-            $plogger = new Plogger("データ取得成功");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("データ取得成功");
             // レスポンス
             $this->response->setContent($json);
             $this->response->setContentType("application/json", "utf-8");
@@ -34,9 +32,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // 検索が失敗すれば
         } else {
             // ログ出力
-            $plogger = new Plogger("データ取得失敗");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("データ取得失敗");
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
             $this->response->setContentType("application/json", "utf-8");
@@ -56,9 +52,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // json化
             $json = json_encode($items);
             // ログ出力
-            $plogger = new Plogger("検索結果が".count($items)."件見つかりました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("検索結果が".count($items)."件見つかりました");
             // レスポンス
             $this->response->setContent($json);
             $this->response->setContentType("application/json", "utf-8");
@@ -69,9 +63,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ステータスコードを変える
             $this->response->setStatusCode(404, 'NOT-FOUND');
             // ログ出力
-            $plogger = new Plogger("検索結果が見つかりませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("検索結果が見つかりませんでした");
             // レスポンス
             $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
@@ -90,9 +82,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // json化
             $json = json_encode($items);
             // ログ出力
-            $plogger = new Plogger("検索結果が見つかりました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("検索結果が見つかりました");
             // レスポンス
             $this->response->setContent($json);
             $this->response->setContentType("application/json", "utf-8");
@@ -104,9 +94,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // ステータスコードを変える
             $this->response->setStatusCode(404, 'NOT-FOUND');
             // ログ出力
-            $plogger = new Plogger("検索結果が見つかりませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("検索結果が見つかりませんでした");
             // レスポンス
             $this->response->setContentType("application/json", "utf-8");
             $this->view->disable();
@@ -126,9 +114,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // json化
             $json = json_encode($status);
             // ログ出力
-            $plogger = new Plogger("データの作成に成功しました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::debug("データの作成に成功しました");
             // レスポンス
             $this->response->setStatusCode(201, 'Created');
             $this->response->setContentType("application/json", "utf-8");
@@ -140,9 +126,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // insertionが失敗したら
         } else {
             // ログ出力
-            $plogger = new Plogger("データの作成に失敗しました");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("データの作成に失敗しました");
             // エラーメッセージの用意
             $errors = [];
             foreach($status->getMessages() as $message) {
@@ -176,9 +160,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 // json化
                 $json = json_encode($status);
                 // ログ出力
-                $plogger = new Plogger("データの更新に成功しました");
-                $plogger->debug();
-                var_dump($plogger);
+                Plogger::debug("データの更新に成功しました");
                 // レスポンス
                 $this->response->setStatusCode(201, 'Updated');
                 $items->id = $status->getModel()->id;
@@ -190,9 +172,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
             // 失敗したら
             } else {
                 // ログ出力
-                $plogger = new Plogger("データの更新に失敗しました");
-                $plogger->debug();
-                var_dump($plogger);
+                Plogger::error("データの更新に失敗しました");
                 // エラーメッセージの用意
                 $errors = [];
                 foreach($status->getMessages() as $message) {
@@ -209,9 +189,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // 対象データが存在しなかったら
         } else {
             // ログ出力
-            $plogger = new Plogger("対象のデータは存在しませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("対象のデータは存在しませんでした");
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
             $this->response->setContentType("application/json", "utf-8");
@@ -238,9 +216,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
                 $this->response->setStatusCode(204, 'No Content');
             } else {
                 // ログ出力
-                $plogger = new Plogger("データの削除に失敗しました");
-                $plogger->debug();
-                var_dump($plogger);
+                Plogger::error("データの削除に失敗しました");
                 // エラーメッセージの用意
                 $errors = [];
                 foreach($status->getMessages() as $message) {
@@ -258,9 +234,7 @@ class ItemsController extends \Phalcon\Mvc\Controller
         // 対象データが存在しなかったら
         } else {
             // ログ出力
-            $plogger = new Plogger("対象のデータは存在しませんでした");
-            $plogger->debug();
-            var_dump($plogger);
+            Plogger::error("対象のデータは存在しませんでした");
             // レスポンス
             $this->response->setStatusCode(404, 'NOT-FOUND');
             $this->response->setContentType("application/json", "utf-8");
